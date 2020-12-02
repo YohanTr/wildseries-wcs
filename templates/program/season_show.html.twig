@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{ program.title }}</h1>
+        <h2>Season {{ season.number }} ({{ season.year }})</h2>
+    {% for episode in episode %}
+        <div>
+            <ul>
+                <li>{{ episode.title }}</li>
+                <p>{{ episode.synopsis }}</p>
+            </ul>
+        </div>
+    {% endfor %}
+{% endblock %}

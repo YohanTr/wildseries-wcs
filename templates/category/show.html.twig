@@ -7,7 +7,7 @@
         <div>
             <h1>{{ program.id }} / {{ program.title }}</h1>
             <p>{{ program.summary }}</p>
-            <a href="{{ path("program_show", { id: program.id }) }}">Voir la fiche</a>
+            <a href="{{ path("program_show"}}">Voir la fiche</a>
         </div>
         {% else %}
             <p>Aucune série dans cette catégorie !</p>
