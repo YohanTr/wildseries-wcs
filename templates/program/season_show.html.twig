@@ -6,7 +6,11 @@
     {% for episode in episode %}
         <div>
             <ul>
-                <li class="text-secondary"><a  class="text-secondary" href="{{ path("program_episode_show", { programId: program.id, seasonId: season.id, episodeId: episode.id }) }}">{{ episode.title }}</li></a>
+                <li class="text-secondary">
+                    <a  class="text-secondary" href="{{ path("program_episode_show",
+                        { programId: program.id, seasonId: season.id, episodeId: episode.id }) }}">
+                    {{ episode.title }}</a>
+                </li>
                 <p>{{ episode.synopsis }}</p>
             </ul>
         </div>
