@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="media">
+        <img class="align-self-start mr-3" src="{{program.poster}}" alt="{{ program.title }} poster">
+        <div class="media-body">
+            <h1 class="mt-0">{{ program.title }} Saison : {{ season.number }}</h1>
+            <h2>{{ episode.number }} - {{ episode.title }}</h2>
+            <h3>{{ episode.synopsis }}</h3>
+        </div>
+    </div>
+
+{% endblock %}
