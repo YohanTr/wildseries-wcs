@@ -1,2 +1,7 @@
 # wildseries-wcs
-Quest_10 : https://drive.google.com/file/d/1zfjzHgb3jR2cX6tod3YXIV-NmbRkb7jn/view?usp=sharing
+Create episode : https://streamable.com/eoc5h1
+Delete episode : https://streamable.com/8brg8h
+Modify episode : https://streamable.com/4gxpks
+Create season : https://streamable.com/cjgpu3
+Modify season : https://streamable.com/56qc8y
+Delete season : https://streamable.com/dst3ed
