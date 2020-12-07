@@ -6,9 +6,14 @@ use App\Repository\ProgramRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * @ORM\Entity(repositoryClass=ProgramRepository::class)
+ * @UniqueEntity("title", message="This program  already exist.")
+ * @Assert\EnableAutoMapping()
  */
 class Program
 {
@@ -21,11 +26,18 @@ class Program
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Insert a title please.")
+     * @Assert\Length(
+     *     max = 255,
+     *     maxMessage="La catégorie saisie est trop longue, elle ne devrait pas dépasser {{ limit }} caractères"
+     * )
+
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="a summary please.")
      */
     private $summary;
 
