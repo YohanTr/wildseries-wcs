@@ -2,7 +2,6 @@
 {% block title %}{{ program.title }}{% endblock %}
 
 {% block body %}
-
     <div class="media">
         <img class="align-self-start mr-3" src="{{program.poster}}" alt="{{ program.title }} poster">
         <div class="media-body">
@@ -15,9 +14,14 @@
             <a href="{{ path('program_index') }}">
                 <button type="button" class="btn btn-primary btn-sm"> Retour à la liste des programmes   </button>
             </a>
+            <strong>Acteurs :</strong>
+            <ul>
+                {% for actor in program.actors %}
+                    <a href="{{ path('actor_show', {id : actor.id}) }}"><li>{{ actor.name }} </li></a>
+                {% else %}
+                    <li>Aucun acteur pour cette série</li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
-
-
-
 {% endblock %}
