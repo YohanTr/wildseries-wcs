@@ -9,7 +9,7 @@
             <p>{{ program.summary }}</p>
             <p>Catégorie : {{ program.category.name }}</p>
             {% for season in season %}
-                <a href="{{ path('program_season_show', {programId : program.id, seasonId : season.id}) }}"><button type="button" class="btn btn-secondary btn-sm">Season : {{ season.number }}</button></a>
+                <a href="{{ path('program_season_show', { programSlug : program.slug, seasonId : season.id}) }}"><button type="button" class="btn btn-secondary btn-sm">Season : {{ season.number }}</button></a>
             {% endfor %}
             <a href="{{ path('program_index') }}">
                 <button type="button" class="btn btn-primary btn-sm"> Retour à la liste des programmes   </button>

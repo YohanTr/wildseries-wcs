@@ -31,10 +31,13 @@ class CategoryController extends AbstractController
             ['categories' => $categories]
         );
     }
+
     /**
      * The controller for the category add form
      *
      * @Route("/new", name="new")
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request) : Response
     {
@@ -62,8 +65,10 @@ class CategoryController extends AbstractController
             "form" => $form->createView(),
         ]);
     }
+
     /**
      * @Route("/{categoryName}"), methods={"GET"}, name="show")
+     * @param string $categoryName
      * @return Response A response instance
      */
     public function show(string $categoryName): Response
