@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Episode;
+use App\Entity\Program;
 use App\Form\EpisodeType;
 use App\Service\Slugify;
 use App\Repository\EpisodeRepository;
@@ -10,6 +11,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+
+
 
 /**
  * @Route("/episode")
@@ -18,6 +23,8 @@ class EpisodeController extends AbstractController
 {
     /**
      * @Route("/", name="episode_index", methods={"GET"})
+     * @param EpisodeRepository $episodeRepository
+     * @return Response
      */
     public function index(EpisodeRepository $episodeRepository): Response
     {
@@ -30,11 +37,14 @@ class EpisodeController extends AbstractController
      * @Route("/new", name="episode_new", methods={"GET","POST"})
      * @param Slugify $slugify
      * @param Request $request
+     * @param MailerInterface $mailer
      * @return Response
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
      */
-    public function new(Slugify $slugify, Request $request): Response
+    public function new(Slugify $slugify, Request $request, MailerInterface $mailer): Response
     {
         $episode = new Episode();
+        $program = new Program();
         $form = $this->createForm(EpisodeType::class, $episode);
         $form->handleRequest($request);
 
@@ -44,6 +54,13 @@ class EpisodeController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($episode);
             $entityManager->flush();
+            $email = (new Email())
+                ->from($this->getParameter('mailer_from'))
+                ->to('yotahir69@gmail.com')
+                ->subject('Un nouvel épisode vient d\'être publié !')
+                ->html($this->renderView('episode/newEpisodeEmail.html.twig', ['episode' => $episode]));
+
+            $mailer->send($email);
 
             return $this->redirectToRoute('episode_index');
         }

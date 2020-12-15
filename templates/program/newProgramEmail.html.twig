@@ -1,0 +1,10 @@
+{% extends '_email.html.twig' %}
+
+{% block title %}
+    {{ program.title }}
+{% endblock %}
+{% block body %}
+    <h1>La série {{ program.title }} est disponible</h1>
+    <img class="align-self-start mr-3" src="{{program.poster}}" alt="{{ program.title }} poster">
+    <p>Synopsis : {{program.summary }}
+{% endblock %}
