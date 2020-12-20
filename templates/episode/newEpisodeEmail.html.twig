@@ -1,0 +1,12 @@
+{% extends '_email.html.twig' %}
+
+{% block title %}
+    <h1>{{ episode.season.program.title }}</h1>
+{% endblock %}
+
+{% block body %}
+    <h1> {{ episode.title }} est disponible !</h1>
+    <p> Il s'agit de l'épisode {{ episode.number }} de la saison {{ episode.season.number }}</p>
+    <p>Synopsis : {{ episode.synopsis }} </p>
+    <a href="localhost:8000{{ path('episode_show', {slug: episode.slug}) }}"> Voir la fiche de la série </a>
+{% endblock %}

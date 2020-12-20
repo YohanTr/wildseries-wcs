@@ -1,10 +1,25 @@
+@import "~bootstrap/scss/bootstrap";
+$firstColor: #BEE4FE;
+$secondColor: #D1D1D1;
+$thirdColor: #2CACFF;
+
 body {
     background-color: whitesmoke;
 }
 
-$theme-colors: (
-        "primary": #BEE4FE,
-        "danger": #D1D1D1
-);
+#navbar-wild {
+    background-color: $firstColor;
+}
 
-@import "~bootstrap/scss/bootstrap";
+.card {
+    margin: 10px 10px 10px 10px;
+    background-color: $firstColor;
+}
+
+#button-fiche {
+    background-color: $thirdColor;
+    border: $thirdColor;
+}
+p {
+    font-size: 13px;
+}
