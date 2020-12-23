@@ -23,3 +23,20 @@ body {
 p {
     font-size: 13px;
 }
+
+#posterImage {
+    width: 500px;
+    height: 600px;
+}
+
+#episodeCard {
+    display: flex;
+    flex-direction: row;
+}
+
+#imageBox {
+    display: flex;
+    flex-direction: row;
+    align-content: flex-start;
+    margin-left: initial;
+}

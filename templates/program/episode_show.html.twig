@@ -2,12 +2,45 @@
 
 
 {% block body %}
-    <div class="media">
-        <img class="align-self-start mr-3" src="{{program.poster}}" alt="{{ program.title }} poster">
+    <div class="container" id="episodeCard">
+        <div id="imageBox">
+        <img class="rounded" id="posterImage" src="{{program.poster}}" alt="{{ program.title }} poster">
+        </div>
         <div class="media-body">
             <h1 class="mt-0 text-center">{{ program.title }} Saison : {{ season.number }}</h1>
             <h2 class="text-center">{{ episode.number }} - {{ episode.title }}</h2>
             <p class="text-justify">{{ episode.synopsis }}</p>
+            {% if app.user %}
+                {{ form_start(formCom) }}
+                {{ form_widget(formCom) }}
+                <input type='submit' value='Post ton commentaire !'>
+                {{ form_end(formCom) }}
+            {% else %}
+                <a href="{{ path('app_login') }}"> Se connecter pour laisser un commentaire</a>
+            {% endif %}
+            {% for comment in episode.comments %}
+                <div class="container">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="card card-white post">
+                                <div class="post-heading">
+                                    <div class="float-left meta">
+                                        <div class="title h5">
+                                            <p>Commentaire de {{ comment.author.email }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="post-description">
+                                    <p>{{ comment.comment }}</p>
+                                    <p>Note: {{ comment.rate }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
         </div>
     </div>
 
