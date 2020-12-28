@@ -4,16 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Form\CommentType;
-use App\Repository\CommentRepository;
-use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-
 
 class CommentController extends AbstractController
 {
@@ -24,7 +19,7 @@ class CommentController extends AbstractController
      * @param Comment $comment
      * @return Response
      */
-    public function edit(Request $request, Comment $comment): Response
+    public function edit(Comment $comment, Request $request): Response
     {
         if (!($this->getUser() === $comment->getAuthor()) && !in_array('ROLE_ADMIN', $this->getUser()->getRoles()))  {
             // If not the owner, throws a 403 Access Denied exception
@@ -51,7 +46,7 @@ class CommentController extends AbstractController
      * @param Comment $comment
      * @return Response
      */
-    public function delete(Request $request, Comment $comment): Response
+    public function delete(Comment $comment, Request $request): Response
     {
         if (!($this->getUser() === $comment->getAuthor()) && !in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
             // If not the owner, throws a 403 Access Denied exception
