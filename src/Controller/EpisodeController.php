@@ -10,11 +10,11 @@ use App\Repository\EpisodeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
-
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/episode")
@@ -39,7 +39,8 @@ class EpisodeController extends AbstractController
      * @param Request $request
      * @param MailerInterface $mailer
      * @return Response
-     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     * @throws TransportExceptionInterface
+     * @IsGranted("ROLE_CONTRIBUTOR")
      */
     public function new(Slugify $slugify, Request $request, MailerInterface $mailer): Response
     {
@@ -123,6 +124,6 @@ class EpisodeController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('episode_index');
+        return $this->redirectToRoute('program_showEpisode');
     }
 }

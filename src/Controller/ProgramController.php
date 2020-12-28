@@ -16,6 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Service\Slugify;
 use Symfony\Component\Mime\Email;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 
 /**
@@ -42,12 +44,12 @@ class ProgramController extends AbstractController
 
     /**
      * The controller for the category add form
-     *
      * @Route("/new", name="new")
      * @param Request $request
      * @param Slugify $slugify
      * @param MailerInterface $mailer
      * @return Response
+     * @IsGranted("ROLE_CONTRIBUTOR")
      */
     public function new(Request $request, Slugify $slugify, MailerInterface $mailer) : Response
     {
@@ -57,6 +59,7 @@ class ProgramController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $slug = $slugify->generate($program->getTitle());
             $program->setSlug($slug);
+            $program->setOwner($this->getUser());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($program);
             $entityManager->flush();
@@ -154,6 +157,38 @@ class ProgramController extends AbstractController
             'episode' => $episode,
             'comment' => $comment,
             'formCom' => $formCom->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/{program}/edit", name="edit", methods={"GET","POST"})
+     * @ParamConverter("program", class="App\Entity\Program", options={"mapping": {"program": "slug"}})
+     * @param Request $request
+     * @param Program $program
+     * @param Slugify $slugify
+     * @return Response
+     */
+    public function edit(Request $request, Program $program, Slugify $slugify): Response
+    {
+
+        if (!($this->getUser() == $program->getOwner())) {
+            /* If not the owner, throws a 403 Access Denied exception */
+            throw new AccessDeniedException('Only the owner can edit the program!');
+        }
+
+        $form = $this->createForm(ProgramType::class, $program);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $slug = $slugify->generate($program->getTitle());
+            $program->setSlug($slug);
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('program_index');
+        }
+
+        return $this->render('program/edit.html.twig', [
+            'program' => $program,
+            'form' => $form->createView(),
         ]);
     }
 }
