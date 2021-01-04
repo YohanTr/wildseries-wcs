@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Program;
 
 class DefaultController extends AbstractController
 {
@@ -13,8 +14,11 @@ class DefaultController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('/index.html.twig', [
-            'welcome' => 'Bienvenue sur Wild Series',
+        $programs = $this->getDoctrine()
+            ->getRepository(Program::class)
+            ->findBy([], ['id' => 'DESC']);
+        return $this->render('index.html.twig', [
+            'programs' => $programs,
         ]);
     }
 }

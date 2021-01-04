@@ -1,5 +1,28 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<h1>{{ welcome }}</h1>
+        <div class="container">
+            <div class="row">
+                {% for program in programs %}
+                    <div class="col-sm">
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="{{program.poster}} alt="Card image cap">
+                            <div class="card-body">
+                                <h4>{{ program.title }} - {{ program.category.name }}</h4>
+                                <p class="card-text font-weight-light">{{ program.summary }}</p>
+                                <a href="{{ path("program_show", { programSlug: program.slug }) }}">
+                                    <button type="button" class="btn btn-primary btn-sm" id="button-fiche">Voir la fiche</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    Aucune série trouvée.
+                {% endfor %}
+            </div>
+        </div>
+
+        <a href="{{ path('app_index') }}">
+            Retour à l'accueil
+        </a>
 {% endblock %}

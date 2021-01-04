@@ -9,12 +9,21 @@
             <a class="nav-item nav-link" href="{{ path("program_index")}}">Tv Shows</a>
             <a class="nav-item nav-link" href="{{ path("category_index")}}">Categories</a>
             <a class="nav-item nav-link" href="#">Other</a>
-            {% if app.user %}
-                {{ app.user.email }}
-                <a class="nav-item nav-link"href="{{ path('app_logout') }}"> Se déconnecter</a>
-            {% else %}
-                <a class="nav-item nav-link" href="{{ path('app_login') }}"> Se connecter</a>
-            {% endif %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Login/Register
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% if app.user %}
+                        {{ app.user.email }}
+                        <a class="dropdown-item" href="{{ path('app_logout') }}"> Se déconnecter</a>
+                        <a class="dropdown-item" href="{{ path('app_profile') }}">Mon compte</a>
+                    {% else %}
+                        <a class="dropdown-item" href="{{ path('app_login') }}"> Se connecter</a>
+                        <a class="dropdown-item" href="{{ path('app_register') }}">Register</a>
+                    {% endif %}
+                </div>
+            </li>
         </div>
     </div>
 </nav>
