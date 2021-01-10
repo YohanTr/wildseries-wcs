@@ -3,6 +3,10 @@
 {% block title %}Toutes les séries{% endblock %}
 
 {% block body %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button>Search</button>
+    {{ form_end(form) }}
     <div class="container">
         <div class="row">
         {% for program in programs %}
