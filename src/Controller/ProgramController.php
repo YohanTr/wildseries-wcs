@@ -8,6 +8,8 @@ use App\Entity\Season;
 use App\Entity\Comment;
 use App\Form\ProgramType;
 use App\Form\CommentType;
+use App\Form\SearchProgramFormType;
+use App\Repository\ProgramRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,17 +31,26 @@ class ProgramController extends AbstractController
      * Show all rows from Program’s entity
      *
      * @Route("/", name="index")
+     * @param Request $request
+     * @param ProgramRepository $programRepository
      * @return Response A response instance
      */
-    public function index(): Response
+    public function index(Request $request, ProgramRepository $programRepository): Response
     {
-        $programs = $this->getDoctrine()
-            ->getRepository(Program::class)
-            ->findAll();
-        return $this->render(
-            '/program/index.html.twig',
-            ['programs' => $programs]
-        );
+        $form = $this->createForm(SearchProgramFormType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $search = $form->getData()['search'];
+            $programs = $programRepository->findLikeActorAndName($search);
+        } else {
+            $programs = $programRepository->findAll();
+        }
+
+        return $this->render('program/index.html.twig', [
+            'programs' => $programs,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
